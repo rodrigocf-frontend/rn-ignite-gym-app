@@ -5,9 +5,11 @@ import { Navigation } from "@/routes";
 
 export default function App() {
   return (
-    <GluestackUIProvider mode="dark">
-      <Navigation />
-      <StatusBar style="dark" />
-    </GluestackUIProvider>
+    <>
+      <GluestackUIProvider mode="dark">
+        <StatusBar style="light" />
+        <Navigation />
+      </GluestackUIProvider>
+    </>
   );
 }
