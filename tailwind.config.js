@@ -1,5 +1,3 @@
-import { green } from "react-native-reanimated/lib/typescript/Colors";
-
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: process.env.DARK_MODE ? process.env.DARK_MODE : "class",

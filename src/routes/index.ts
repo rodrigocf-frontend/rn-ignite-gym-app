@@ -9,12 +9,13 @@ import {
 const RootStack = createNativeStackNavigator({
   groups: {
     Public: {
-      screenOptions: ({ theme }) => ({
+      screenOptions: {
+        animation: "fade",
         headerShown: false,
         contentStyle: {
           backgroundColor: "rgb(18,18,20)",
         },
-      }),
+      },
       screens: {
         Login,
         SignUp,

@@ -9,10 +9,13 @@ import { AppButton } from "@/components/common/appbutton";
 import { VStack } from "@/components/base/vstack";
 import { TextField } from "@/components/common/textfield";
 import { Heading } from "@/components/base/heading";
+import { useNavigation } from "@react-navigation/native";
 
 export function Login() {
+  const navigation = useNavigation();
+
   return (
-    <SafeAreaView className="flex-1">
+    <Box className="flex-1">
       <ImageBackground
         source={bgImg}
         resizeMode="none"
@@ -32,7 +35,7 @@ export function Login() {
             <TextField label="Email" />
             <TextField label="Password" type="password" />
           </VStack>
-          <Box className="mt-8 justify-between flex-1 pb-10">
+          <Box className="mt-8 justify-between flex-1 pb-20">
             <AppButton>Acessar</AppButton>
             <Box>
               <Center>
@@ -41,12 +44,17 @@ export function Login() {
                 </Text>
               </Center>
               <Box className="mt-3">
-                <AppButton variant="secondary">Criar conta</AppButton>
+                <AppButton
+                  onPress={() => navigation.navigate("SignUp")}
+                  variant="secondary"
+                >
+                  Criar conta
+                </AppButton>
               </Box>
             </Box>
           </Box>
         </Box>
       </Box>
-    </SafeAreaView>
+    </Box>
   );
 }
