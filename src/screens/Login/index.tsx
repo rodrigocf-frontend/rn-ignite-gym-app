@@ -1,5 +1,4 @@
 import { ImageBackground } from "@/components/base/image-background";
-import { SafeAreaView } from "react-native-safe-area-context";
 import bgImg from "../../../assets/background.png";
 import { Brand } from "@/components/common/brand";
 import { Box } from "@/components/base/box";
@@ -10,9 +9,10 @@ import { VStack } from "@/components/base/vstack";
 import { TextField } from "@/components/common/textfield";
 import { Heading } from "@/components/base/heading";
 import { useNavigation } from "@react-navigation/native";
+import { NavigationParamList } from "@/routes/index.route";
 
 export function Login() {
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationParamList>();
 
   return (
     <Box className="flex-1">
@@ -36,7 +36,15 @@ export function Login() {
             <TextField label="Password" type="password" />
           </VStack>
           <Box className="mt-8 justify-between flex-1 pb-20">
-            <AppButton>Acessar</AppButton>
+            <AppButton
+              onPress={() =>
+                navigation.navigate("authenticated", {
+                  screen: "home",
+                })
+              }
+            >
+              Acessar
+            </AppButton>
             <Box>
               <Center>
                 <Text className="text-typography-50 text-base font-roboto">
@@ -45,7 +53,11 @@ export function Login() {
               </Center>
               <Box className="mt-3">
                 <AppButton
-                  onPress={() => navigation.navigate("SignUp")}
+                  onPress={() =>
+                    navigation.navigate("public", {
+                      screen: "signup",
+                    })
+                  }
                   variant="secondary"
                 >
                   Criar conta

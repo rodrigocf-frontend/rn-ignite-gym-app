@@ -42,7 +42,7 @@ export function SignUp() {
             <Box className="mt-3">
               <AppButton
                 variant="secondary"
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.goBack()}
               >
                 Voltar para o login
               </AppButton>
