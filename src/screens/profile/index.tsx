@@ -11,6 +11,7 @@ import {
 import { Center } from "@/components/base/center";
 import { TextField } from "@/components/common/textfield";
 import { AppButton } from "@/components/common/appbutton";
+import { ScrollView } from "react-native";
 
 export function Profile() {
   const [name, setName] = useState("Rodrigo Gonçalves");
@@ -27,8 +28,8 @@ export function Profile() {
   };
 
   return (
-    <Box className="flex-1 px-10">
-      <VStack className="flex-1 pt-8">
+    <ScrollView className="flex-1 px-10" showsVerticalScrollIndicator={false}>
+      <VStack className="flex-1 pt-8 pb-9">
         <Center className="pb-9 gap-3">
           <Avatar className="border-4 border-gray-800 w-48 h-48">
             <AvatarFallbackText>Rodrigo Gonçalves</AvatarFallbackText>
@@ -44,33 +45,37 @@ export function Profile() {
           </AppButton>
         </Center>
 
-        <VStack space="md" className="mb-8">
+        <VStack space="xl" className="mb-8">
           <TextField color="SECONDARY" placeholder="Nome" />
           <TextField color="SECONDARY" placeholder="E-mail" />
         </VStack>
 
-        <VStack space="md" className="mb-9">
-          <Box className="">
-            <Heading className="text-typography-100 text-base font-bold">
-              Alterar senha
-            </Heading>
-          </Box>
+        <VStack space="2xl">
+          <VStack space="sm" className="mb-9">
+            <Box className="">
+              <Heading className="text-typography-100 text-base font-bold">
+                Alterar senha
+              </Heading>
+            </Box>
 
-          <TextField
-            color="SECONDARY"
-            placeholder="Senha antiga"
-            type="password"
-          />
+            <VStack space="xl">
+              <TextField
+                color="SECONDARY"
+                placeholder="Senha antiga"
+                type="password"
+              />
 
-          <TextField
-            color="SECONDARY"
-            placeholder="Nova senha"
-            type="password"
-          />
+              <TextField
+                color="SECONDARY"
+                placeholder="Nova senha"
+                type="password"
+              />
+            </VStack>
+          </VStack>
+
+          <AppButton onPress={handleChangePhoto}>Atualizar</AppButton>
         </VStack>
-
-        <AppButton onPress={handleChangePhoto}>Atualizar</AppButton>
       </VStack>
-    </Box>
+    </ScrollView>
   );
 }
