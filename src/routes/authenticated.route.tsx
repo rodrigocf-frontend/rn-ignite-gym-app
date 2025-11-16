@@ -1,4 +1,4 @@
-import { Header } from "@/components/common/header";
+import { Header } from "@/components/ui/header";
 import { Exercise } from "@/screens/exercise";
 import { History } from "@/screens/history";
 import { Home } from "@/screens/home";
