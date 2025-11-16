@@ -1,9 +1,8 @@
 import { Button, ButtonText } from "@/components/base/button";
-import { NavigationParamList } from "@/routes/index.route";
 import { useNavigation } from "@react-navigation/native";
 
 export function Home() {
-  const navigation = useNavigation<NavigationParamList>();
+  const navigation = useNavigation();
 
   return (
     <Button>
@@ -11,6 +10,9 @@ export function Home() {
         onPress={() =>
           navigation.navigate("authenticated", {
             screen: "exercise",
+            params: {
+              name: "Puxada Frontal",
+            },
           })
         }
       >

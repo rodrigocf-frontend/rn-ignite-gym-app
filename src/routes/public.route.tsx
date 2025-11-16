@@ -1,5 +1,4 @@
 import { Login } from "@/screens/login";
-
 import { SignUp } from "@/screens/signup";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 

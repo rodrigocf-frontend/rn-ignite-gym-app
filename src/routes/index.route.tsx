@@ -1,26 +1,21 @@
-import { NavigationContainer } from "@react-navigation/native";
 import {
-  NativeStackNavigationProp,
-  createNativeStackNavigator,
-} from "@react-navigation/native-stack";
-import { PublicRoutes, PublicStackParamList } from "./public.routes";
+  NavigationContainer,
+  NavigatorScreenParams,
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { PublicRoutes, PublicStackParamList } from "./public.route";
 import {
   AuthenticatedRoutes,
   AuthenticatedStackParamList,
-} from "./authenticated.routes";
+} from "./authenticated.route";
+import React from "react";
 
-export type RootStackParamList = {
-  public: {
-    screen?: keyof PublicStackParamList;
-  };
-  authenticated: {
-    screen?: keyof AuthenticatedStackParamList;
-  };
+type RootStackParamList = {
+  public: NavigatorScreenParams<PublicStackParamList>;
+  authenticated: NavigatorScreenParams<AuthenticatedStackParamList>;
 };
 
 export const RootStack = createNativeStackNavigator<RootStackParamList>();
-
-export type NavigationParamList = NativeStackNavigationProp<RootStackParamList>;
 
 export const Routes = () => {
   return (
@@ -43,3 +38,9 @@ export const Routes = () => {
     </NavigationContainer>
   );
 };
+
+declare global {
+  namespace ReactNavigation {
+    interface RootParamList extends RootStackParamList {}
+  }
+}

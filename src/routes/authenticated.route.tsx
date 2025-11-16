@@ -12,7 +12,9 @@ import {
 
 export type AuthenticatedStackParamList = {
   home: undefined;
-  exercise: undefined;
+  exercise: {
+    name: string;
+  };
   history: undefined;
   profile: undefined;
 };

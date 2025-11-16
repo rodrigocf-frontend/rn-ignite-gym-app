@@ -9,10 +9,9 @@ import { VStack } from "@/components/base/vstack";
 import { TextField } from "@/components/common/textfield";
 import { Heading } from "@/components/base/heading";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationParamList } from "@/routes/index.route";
 
 export function Login() {
-  const navigation = useNavigation<NavigationParamList>();
+  const navigation = useNavigation();
 
   return (
     <Box className="flex-1">
@@ -38,9 +37,7 @@ export function Login() {
           <Box className="mt-8 justify-between flex-1 pb-20">
             <AppButton
               onPress={() =>
-                navigation.navigate("authenticated", {
-                  screen: "home",
-                })
+                navigation.navigate("authenticated", { screen: "home" })
               }
             >
               Acessar

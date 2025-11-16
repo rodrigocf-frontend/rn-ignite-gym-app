@@ -10,8 +10,9 @@ import { Icon } from "@/components/base/icon";
 import { Pressable } from "@/components/base/pressable";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ArrowLeft, LogOutIcon } from "lucide-react-native";
 import { PersonIcon } from "phosphor-react-native";
 
@@ -76,7 +77,7 @@ const HomeHeader = () => {
 
 const ExerciseHeader = () => {
   const navigation = useNavigation();
-  const route = useRoute();
+  const route = useRoute<RouteProp<AuthenticatedStackParamList, "exercise">>();
 
   return (
     <VStack space="md">
@@ -85,7 +86,7 @@ const ExerciseHeader = () => {
       </Pressable>
       <HStack className="justify-between items-center">
         <Heading className="text-typography-50 font-roboto text-xl">
-          {route.name}
+          {route.params.name}
         </Heading>
         <HStack space="xs" className="items-center">
           <Icon fill="#7C7C8A" stroke="#7C7C8A" as={PersonIcon} size="md" />
