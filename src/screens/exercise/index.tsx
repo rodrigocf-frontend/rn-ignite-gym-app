@@ -40,7 +40,7 @@ export function Exercise() {
                 </HStack>
               </HStack>
             </Box>
-            <AppButton variant="primary">Marcar como realizado</AppButton>
+            <AppButton variant="solid">Marcar como realizado</AppButton>
           </VStack>
         </Box>
       </VStack>

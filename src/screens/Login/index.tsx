@@ -31,8 +31,8 @@ export function Login() {
             <Heading className="text-typography-50">Acesse sua conta</Heading>
           </Center>
           <VStack space="md">
-            <TextField label="Email" />
-            <TextField label="Password" type="password" />
+            <TextField placeholder="Email" />
+            <TextField placeholder="Password" type="password" />
           </VStack>
           <Box className="mt-8 justify-between flex-1 pb-20">
             <AppButton
@@ -55,7 +55,7 @@ export function Login() {
                       screen: "signup",
                     })
                   }
-                  variant="secondary"
+                  variant="outline"
                 >
                   Criar conta
                 </AppButton>

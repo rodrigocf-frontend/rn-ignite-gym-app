@@ -3,21 +3,22 @@ import { Button, ButtonText } from "@/components/base/button";
 import { PropsWithChildren } from "react";
 
 interface AppButton {
-  variant?: "primary" | "secondary";
+  variant?: "link" | "outline" | "solid";
   onPress?: () => void;
 }
 
 export function AppButton({
   children,
   onPress,
-  variant = "primary",
+  variant = "solid",
 }: PropsWithChildren<AppButton>) {
   switch (variant) {
-    case "primary":
+    case "solid":
       return (
         <Button
+          size="md"
           className="bg-secondary-50  py-4 px-5 h-fit"
-          variant="solid"
+          variant={variant}
           onPress={onPress}
         >
           <ButtonText className="text-base font-roboto text-typography-white">
@@ -25,14 +26,23 @@ export function AppButton({
           </ButtonText>
         </Button>
       );
-    case "secondary":
+    case "outline":
       return (
         <Button
+          size="md"
           className="border-secondary-0 py-4 px-5 h-fit"
-          variant="outline"
+          variant={variant}
           onPress={onPress}
         >
-          <ButtonText className="text-base font-roboto text-typography-green">
+          <ButtonText className="font-roboto text-typography-green">
+            {children}
+          </ButtonText>
+        </Button>
+      );
+    case "link":
+      return (
+        <Button size="md" variant={variant} onPress={onPress}>
+          <ButtonText className="font-roboto text-typography-green">
             {children}
           </ButtonText>
         </Button>
@@ -40,11 +50,12 @@ export function AppButton({
     default:
       return (
         <Button
-          className="bg-secondary-50py-4 px-5 h-fit"
-          variant="solid"
+          size="md"
+          className="bg-secondary-50  py-4 px-5 h-fit"
+          variant={variant}
           onPress={onPress}
         >
-          <ButtonText className="text-base font-roboto text-typography-white">
+          <ButtonText className="font-roboto text-typography-white">
             {children}
           </ButtonText>
         </Button>

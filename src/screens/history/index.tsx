@@ -33,6 +33,7 @@ export function History() {
             </Heading>
           </Box>
         )}
+        showsVerticalScrollIndicator={false}
       />
     </Box>
   );

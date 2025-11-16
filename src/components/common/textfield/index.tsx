@@ -5,34 +5,52 @@ import {
   FormControlErrorText,
 } from "@/components/base/form-control";
 import { Input, InputField } from "@/components/base/input";
+import { Text } from "@/components/base/text";
+import { VStack } from "@/components/base/vstack";
 import { AlertCircleIcon } from "lucide-react-native";
 
+enum TextFieldColors {
+  PRIMARY = "primary-350",
+  SECONDARY = "primary-300",
+}
+
 interface Props {
-  label?: string;
+  placeholder?: string;
+  color?: keyof typeof TextFieldColors;
   type?: "text" | "password";
 }
 
-export function TextField({ label, type = "text" }: Props) {
+export function TextField({
+  placeholder,
+  color = "PRIMARY",
+  type = "text",
+}: Props) {
+  const bgColor = " bg-".concat(TextFieldColors[color]);
+  const borderColor = " border-".concat(TextFieldColors[color]);
+
   return (
     <FormControl
       isInvalid={false}
-      size="md"
       isDisabled={false}
       isReadOnly={false}
       isRequired={false}
     >
-      <Input
-        className="my-1 bg-primary-350 p-4 h-fit  border-primary-350 focus:border-secondary-0"
-        size="md"
-      >
-        <InputField
-          placeholder={label}
-          type={type}
-          className="text-typography-white placeholder:text-base placeholder:text-typography-white"
-          value={""}
-          onChangeText={(text) => {}}
-        />
-      </Input>
+      <VStack>
+        <Input
+          className={"my-1 py-4 h-fit focus:border-secondary-0"
+            .concat(bgColor)
+            .concat(borderColor)}
+          size="sm"
+        >
+          <InputField
+            placeholder={placeholder}
+            type={type}
+            className="text-typography-white placeholder:text-base placeholder:text-typography-white"
+            value={"asdasd"}
+            onChangeText={(text) => {}}
+          />
+        </Input>
+      </VStack>
       <FormControlError>
         <FormControlErrorIcon as={AlertCircleIcon} className="text-red-500" />
         <FormControlErrorText className="text-red-500">

@@ -31,19 +31,16 @@ export function SignUp() {
             <Heading className="text-typography-50">Acesse sua conta</Heading>
           </Center>
           <VStack space="md">
-            <TextField label="Nome" />
-            <TextField label="Email" />
-            <TextField label="Senha" type="password" />
-            <TextField label="Confirme a senha" type="password" />
+            <TextField placeholder="Nome" />
+            <TextField placeholder="Email" />
+            <TextField placeholder="Senha" type="password" />
+            <TextField placeholder="Confirme a senha" type="password" />
           </VStack>
           <Box className="mt-8 justify-between flex-1 pb-10">
             <AppButton>Criar e acessar</AppButton>
 
             <Box className="mt-3">
-              <AppButton
-                variant="secondary"
-                onPress={() => navigation.goBack()}
-              >
+              <AppButton variant="outline" onPress={() => navigation.goBack()}>
                 Voltar para o login
               </AppButton>
             </Box>
