@@ -11,10 +11,12 @@ import { Pressable } from "@/components/base/pressable";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
 import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
+import { AuthContext } from "@/store/AuthContext";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { ArrowLeft, LogOutIcon } from "lucide-react-native";
 import { PersonIcon } from "phosphor-react-native";
+import { use } from "react";
 
 interface OptionsBottomTabs {
   optionsBottomTabs?: BottomTabNavigationOptions;
@@ -38,6 +40,9 @@ export function Header({ type, optionsBottomTabs }: Props) {
 
 const HomeHeader = () => {
   const navigation = useNavigation();
+  const { user } = use(AuthContext);
+
+  console.log(user);
 
   return (
     <HStack className="justify-between items-center">
@@ -58,7 +63,7 @@ const HomeHeader = () => {
             className="text-typography-50 font-roboto text-base"
             size="sm"
           >
-            Rodrigo Cunha
+            {user?.name}
           </Heading>
         </VStack>
       </HStack>

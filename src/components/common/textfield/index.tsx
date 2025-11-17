@@ -18,19 +18,29 @@ interface Props {
   placeholder?: string;
   color?: keyof typeof TextFieldColors;
   type?: "text" | "password";
+  value: string;
+  onChangeText: (value: string) => void;
+  onBlur: () => void;
+  isInvalid: boolean;
+  errorMessage?: string;
 }
 
 export function TextField({
   placeholder,
   color = "PRIMARY",
   type = "text",
+  errorMessage,
+  isInvalid,
+  onBlur,
+  onChangeText,
+  value,
 }: Props) {
   const bgColor = " bg-".concat(TextFieldColors[color]);
   const borderColor = " border-".concat(TextFieldColors[color]);
 
   return (
     <FormControl
-      isInvalid={false}
+      isInvalid={isInvalid}
       isDisabled={false}
       isReadOnly={false}
       isRequired={false}
@@ -46,15 +56,16 @@ export function TextField({
             placeholder={placeholder}
             type={type}
             className="text-typography-white placeholder:text-base placeholder:text-typography-white"
-            value={"asdasd"}
-            onChangeText={(text) => {}}
+            value={value}
+            onChangeText={onChangeText}
+            onBlur={onBlur}
           />
         </Input>
       </VStack>
       <FormControlError>
         <FormControlErrorIcon as={AlertCircleIcon} className="text-red-500" />
         <FormControlErrorText className="text-red-500">
-          At least 6 characters are required.
+          {errorMessage}
         </FormControlErrorText>
       </FormControlError>
     </FormControl>
