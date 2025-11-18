@@ -13,7 +13,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData, loginSchema } from "@/schemas/loginschema";
 import { api, setUnauthorizedHandler } from "@/config/axios-instance";
-import { use, useEffect } from "react";
+import { use, useEffect, useState } from "react";
 import { AuthContext } from "@/store/AuthContext";
 import { Alert } from "react-native";
 import {
@@ -23,9 +23,12 @@ import {
   useToast,
 } from "@/components/base/toast";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, ButtonText } from "@/components/base/button";
 
 export function Login() {
   const toast = useToast();
+  const [toastId, setToastId] = useState(0);
+
   const navigation = useNavigation();
   const { login } = use(AuthContext);
 
@@ -41,17 +44,25 @@ export function Login() {
     },
   });
 
-  const onSubmitError = () => {
-    console.log("show toast");
+  const handleToast = () => {
+    if (!toast.isActive(toastId.toString())) {
+      showNewToast();
+    }
+  };
+
+  const showNewToast = () => {
+    const newId = Math.random();
+    setToastId(newId);
     toast.show({
       placement: "top",
-      id: "fals",
+      id: newId.toString(),
       duration: 10000,
-      render: ({ id }) => {
-        const uniqueToastId = "toast-" + id;
+      render: ({}) => {
+        const uniqueToastId = "toast-" + newId;
+
         return (
           <Toast
-            className="bg-red-600"
+            className="bg-red-600 z-50"
             nativeID={uniqueToastId}
             action="muted"
             variant="solid"
@@ -66,43 +77,19 @@ export function Login() {
     });
   };
 
-  useEffect(() => {
-    toast.show({
-      placement: "top",
-      id: "asdasd",
-      duration: 10000,
-      render: ({ id }) => {
-        const uniqueToastId = "toast-" + id;
-        return (
-          <Toast
-            className="bg-red-600"
-            nativeID={uniqueToastId}
-            action="muted"
-            variant="solid"
-          >
-            <ToastTitle>Hello!</ToastTitle>
-            <ToastDescription>
-              This is a customized toast message.
-            </ToastDescription>
-          </Toast>
-        );
-      },
-    });
-  }, []);
-
   const onSubmit = async (data: LoginFormData) => {
     try {
       const { data: userData } = await api.post("/sessions", data);
 
-      // if (userData.user) {
-      //   login(userData.user);
-      //   navigation.navigate("authenticated", {
-      //     screen: "home",
-      //   });
-      // }
+      if (userData.user) {
+        login(userData.user);
+        navigation.navigate("authenticated", {
+          screen: "home",
+        });
+      }
     } catch (error) {
-      setUnauthorizedHandler(onSubmitError);
       // Mostrar toast de erro
+      handleToast();
     }
   };
 

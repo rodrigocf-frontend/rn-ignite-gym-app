@@ -9,14 +9,9 @@ import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
 import { AlertCircleIcon } from "lucide-react-native";
 
-enum TextFieldColors {
-  PRIMARY = "primary-350",
-  SECONDARY = "primary-300",
-}
-
 interface Props {
   placeholder?: string;
-  color?: keyof typeof TextFieldColors;
+  color?: "PRIMARY" | "SECONDARY";
   type?: "text" | "password";
   value: string;
   onChangeText: (value: string) => void;
@@ -35,8 +30,10 @@ export function TextField({
   onChangeText,
   value,
 }: Props) {
-  const bgColor = " bg-".concat(TextFieldColors[color]);
-  const borderColor = " border-".concat(TextFieldColors[color]);
+  const colorClasses = {
+    PRIMARY: "bg-primary-350 border-primary-350",
+    SECONDARY: "bg-primary-300 border-primary-300",
+  };
 
   return (
     <FormControl
@@ -47,9 +44,7 @@ export function TextField({
     >
       <VStack>
         <Input
-          className={"my-1 py-4 h-fit focus:border-secondary-0"
-            .concat(bgColor)
-            .concat(borderColor)}
+          className={`my-1 py-4 h-fit focus:border-secondary-0 ${colorClasses[color]}`}
           size="sm"
         >
           <InputField

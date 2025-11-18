@@ -1,14 +1,14 @@
 'use client';
 
 import React from 'react';
-import { tva } from '@gluestack-ui/utils/nativewind-utils';
-import { PrimitiveIcon, UIIcon } from '@gluestack-ui/core/icon/creator';
+import { tva } from '@gluestack-ui/nativewind-utils/tva';
+import { PrimitiveIcon, UIIcon } from '@gluestack-ui/icon';
 import {
   withStyleContext,
   useStyleContext,
-} from '@gluestack-ui/utils/nativewind-utils';
-import type { VariantProps } from '@gluestack-ui/utils/nativewind-utils';
-import { createSelect } from '@gluestack-ui/core/select/creator';
+} from '@gluestack-ui/nativewind-utils/withStyleContext';
+import type { VariantProps } from '@gluestack-ui/nativewind-utils';
+import { createSelect } from '@gluestack-ui/select';
 import { cssInterop } from 'nativewind';
 import {
   Actionsheet,
@@ -72,7 +72,7 @@ const selectTriggerStyle = tva({
 });
 
 const selectInputStyle = tva({
-  base: 'px-3 placeholder:text-typography-500 web:w-full h-full text-typography-900 pointer-events-none web:outline-none ios:leading-[0px] py-0',
+  base: 'py-auto px-3 placeholder:text-typography-500 web:w-full h-full text-typography-900 pointer-events-none web:outline-none ios:leading-[0px]',
   parentVariants: {
     size: {
       xl: 'text-xl',

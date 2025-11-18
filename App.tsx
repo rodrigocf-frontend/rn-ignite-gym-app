@@ -27,7 +27,7 @@ export default function App() {
   if (!barVisibility) {
     return (
       <Providers>
-        <GluestackUIProvider mode={"dark"}>
+        <GluestackUIProvider>
           <Box className="flex-1 bg-primary-350">
             <Routes />
           </Box>
