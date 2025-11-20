@@ -15,6 +15,7 @@ import { ImageBackground } from "@/components/base/image-background";
 import { createUser } from "@/services/user";
 import { use } from "react";
 import { ToastContext } from "@/store/ToastContext";
+import { setErrorHandler } from "@/config/axios-instance";
 
 export function SignUp() {
   const navigation = useNavigation();
@@ -47,12 +48,8 @@ export function SignUp() {
         title: "Sucess",
         msg: "Conta criada com sucesso.",
       });
-    } catch (error) {
-      handleToast({
-        sucess: false,
-        title: "Erro",
-        msg: "Falha ao criar conta.",
-      });
+    } catch {
+      setErrorHandler(handleToast);
     }
   };
 

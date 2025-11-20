@@ -6,27 +6,27 @@ import {
 } from "@/components/base/toast";
 import { PropsWithChildren, createContext, useState } from "react";
 
-type ActionParams = {
+export type ToastActionParams = {
   title: string;
   msg: string;
   sucess?: boolean;
 };
 
 export const ToastContext = createContext({
-  handleToast: (params: ActionParams) => {},
+  handleToast: (params: ToastActionParams) => {},
 });
 
 export function ToastProvider({ children }: PropsWithChildren) {
   const toast = useToast();
   const [toastId, setToastId] = useState(0);
 
-  const handleToast = (params: ActionParams) => {
+  const handleToast = (params: ToastActionParams) => {
     if (!toast.isActive(toastId.toString())) {
       showNewToast(params);
     }
   };
 
-  const showNewToast = ({ sucess, title, msg }: ActionParams) => {
+  const showNewToast = ({ sucess, title, msg }: ToastActionParams) => {
     const newId = Math.random();
     setToastId(newId);
     toast.show({

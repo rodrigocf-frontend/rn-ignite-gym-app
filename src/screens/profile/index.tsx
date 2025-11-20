@@ -17,7 +17,7 @@ import { profileSchema, ProfileFormData } from "@/schemas/profileSchema";
 import { AuthContext } from "@/store/AuthContext";
 import { updateUserAvatar, updateUserData } from "@/services/user";
 import * as ImagePicker from "expo-image-picker";
-import { api } from "@/config/axios-instance";
+import { api, setErrorHandler } from "@/config/axios-instance";
 import { useFocusEffect } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { ToastContext } from "@/store/ToastContext";
@@ -71,11 +71,7 @@ export function Profile() {
           oldPassword: " ",
         });
 
-        handleToast({
-          title: "Senha",
-          msg: `A senha antiga informada inválida`,
-          sucess: false,
-        });
+        setErrorHandler(handleToast);
       }
     }
   };
@@ -114,11 +110,7 @@ export function Profile() {
         }
       }
     } catch {
-      handleToast({
-        sucess: false,
-        title: "Erro",
-        msg: "Falha ao atualizar usuário",
-      });
+      setErrorHandler(handleToast);
     }
   };
 

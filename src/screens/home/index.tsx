@@ -10,6 +10,7 @@ import { ExerciseType, ExerciseCard } from "@/components/ui/cards/exercisecard";
 import { getExercisesByGroup, getGroups } from "@/services/exercises";
 import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "@/store/ToastContext";
+import { setErrorHandler } from "@/config/axios-instance";
 
 export function Home() {
   const [selectedGroup, setSelectedGroup] = useState<string>("costas");
@@ -23,11 +24,7 @@ export function Home() {
       const { data } = await getGroups();
       setGroups(data);
     } catch {
-      handleToast({
-        sucess: false,
-        title: "Erro",
-        msg: "Falha ao buscar grupos",
-      });
+      setErrorHandler(handleToast);
     }
   };
 
@@ -36,11 +33,7 @@ export function Home() {
       const { data } = await getExercisesByGroup(selectedGroup);
       setExercises(data);
     } catch {
-      handleToast({
-        sucess: false,
-        title: "Erro",
-        msg: "Falha ao buscar exercícios.",
-      });
+      setErrorHandler(handleToast);
     }
   };
 

@@ -1,9 +1,12 @@
-import axios from "axios";
+import { ToastActionParams } from "@/store/ToastContext";
+import axios, { AxiosError } from "axios";
 
-let UnauthorizedHandler: (() => void) | null = null;
+let errorHandler: ((params: ToastActionParams) => void) | null = null;
 
-export const setUnauthorizedHandler = (callback: () => void) => {
-  UnauthorizedHandler = callback;
+export const setErrorHandler = (
+  callback: (params: ToastActionParams) => void
+) => {
+  errorHandler = callback;
 };
 
 export const api = axios.create({
@@ -19,7 +22,10 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    UnauthorizedHandler?.();
+    errorHandler?.({
+      title: error.name,
+      msg: error.message,
+    });
     return Promise.reject(error);
   }
 );

@@ -12,7 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData, loginSchema } from "@/schemas/loginschema";
-import { api } from "@/config/axios-instance";
+import { api, setErrorHandler } from "@/config/axios-instance";
 import { use, useEffect, useState } from "react";
 import { AuthContext } from "@/store/AuthContext";
 import {
@@ -56,14 +56,8 @@ export function Login() {
           sucess: true,
         });
       }
-    } catch (error) {
-      if (error instanceof AxiosError) {
-        // Mostrar toast de erro
-        handleToast({
-          title: "Authentication",
-          msg: error.message,
-        });
-      }
+    } catch {
+      setErrorHandler(handleToast);
     }
   };
 
