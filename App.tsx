@@ -26,14 +26,14 @@ export default function App() {
 
   if (!barVisibility) {
     return (
-      <Providers>
-        <GluestackUIProvider>
+      <GluestackUIProvider>
+        <Providers>
           <Box className="flex-1 bg-primary-350">
             <Routes />
           </Box>
-        </GluestackUIProvider>
-        <StatusBar style="light" />
-      </Providers>
+          <StatusBar style="light" />
+        </Providers>
+      </GluestackUIProvider>
     );
   }
   return <></>;

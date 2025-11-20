@@ -1,4 +1,4 @@
-import React, { use } from "react";
+import React, { use, useCallback, useEffect } from "react";
 import { Box } from "@/components/base/box";
 import { VStack } from "@/components/base/vstack";
 import { Heading } from "@/components/base/heading";
@@ -18,15 +18,19 @@ import { AuthContext } from "@/store/AuthContext";
 import { updateUserAvatar, updateUserData } from "@/services/user";
 import * as ImagePicker from "expo-image-picker";
 import { api } from "@/config/axios-instance";
+import { useFocusEffect } from "@react-navigation/native";
+import { AxiosError } from "axios";
+import { ToastContext } from "@/store/ToastContext";
 
 export function Profile() {
   const { user, updateUser } = use(AuthContext);
+  const { handleToast } = use(ToastContext);
 
   const {
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm({
     resolver: yupResolver(profileSchema),
     defaultValues: {
@@ -49,9 +53,25 @@ export function Profile() {
         });
         reset({
           name: data.name,
+          newPassword: "",
+          oldPassword: "",
+        });
+
+        handleToast({
+          title: "Dados",
+          msg: `Usuário atualizado`,
+          sucess: true,
+        });
+
+        return;
+      }
+    } catch (e) {
+      if (e instanceof AxiosError) {
+        reset({
+          oldPassword: " ",
         });
       }
-    } catch {}
+    }
   };
 
   const handleChangePhoto = async () => {
@@ -90,6 +110,12 @@ export function Profile() {
           updateUser({
             avatar: response.data.avatar,
           });
+
+          handleToast({
+            title: "Avatar",
+            msg: `Avatar atualizado`,
+            sucess: true,
+          });
         }
       }
     } catch (e) {
@@ -99,6 +125,15 @@ export function Profile() {
       );
     }
   };
+
+  useFocusEffect(
+    React.useCallback(() => {
+      // Do something when the screen is focused
+      return () => {
+        reset();
+      };
+    }, [])
+  );
 
   return (
     <ScrollView className="flex-1 px-10" showsVerticalScrollIndicator={false}>
@@ -140,8 +175,6 @@ export function Profile() {
             name="email"
             render={({ field: { onBlur, value } }) => (
               <TextField
-                onBlur={onBlur}
-                onChangeText={() => {}}
                 value={value}
                 isDisabled
                 color="SECONDARY"
@@ -198,7 +231,7 @@ export function Profile() {
           <AppButton
             onPress={handleSubmit(handleUpdateProfile)}
             isLoading={isSubmitting}
-            isDisabled={isSubmitting}
+            isDisabled={isSubmitting ?? !isDirty}
           >
             {isSubmitting ? "Atualizando..." : "Atualizar"}
           </AppButton>

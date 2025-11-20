@@ -9,8 +9,8 @@ type UpdateUserDTO = {
 export const updateUserData = async (putData: UpdateUserDTO) => {
   try {
     return await api.put(`/users`, putData);
-  } catch {
-    throw Error("Failed to update user data.");
+  } catch (e) {
+    throw e;
   }
 };
 

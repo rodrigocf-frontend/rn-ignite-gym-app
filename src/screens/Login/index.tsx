@@ -23,13 +23,13 @@ import {
 } from "@/components/base/toast";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { authenticate } from "@/services/auth";
+import { ToastContext } from "@/store/ToastContext";
+import { AxiosError } from "axios";
 
 export function Login() {
-  const toast = useToast();
-  const [toastId, setToastId] = useState(0);
-
   const navigation = useNavigation();
-  const { login, user } = use(AuthContext);
+  const { login } = use(AuthContext);
+  const { handleToast } = use(ToastContext);
 
   const {
     control,
@@ -43,39 +43,6 @@ export function Login() {
     },
   });
 
-  const handleToast = () => {
-    if (!toast.isActive(toastId.toString())) {
-      showNewToast();
-    }
-  };
-
-  const showNewToast = () => {
-    const newId = Math.random();
-    setToastId(newId);
-    toast.show({
-      placement: "top",
-      id: newId.toString(),
-      duration: 10000,
-      render: ({}) => {
-        const uniqueToastId = "toast-" + newId;
-
-        return (
-          <Toast
-            className="bg-red-600 z-50"
-            nativeID={uniqueToastId}
-            action="muted"
-            variant="solid"
-          >
-            <ToastTitle>Hello!</ToastTitle>
-            <ToastDescription>
-              This is a customized toast message.
-            </ToastDescription>
-          </Toast>
-        );
-      },
-    });
-  };
-
   const onSubmit = async (data: LoginFormData) => {
     try {
       const { data: userData } = await authenticate(data);
@@ -83,11 +50,20 @@ export function Login() {
 
       if (userData.user) {
         login(userData.user);
+        handleToast({
+          title: "Authentication",
+          msg: `Bem vindo, ${userData.user.name} `,
+          sucess: true,
+        });
       }
     } catch (error) {
-      console.log(error);
-      // Mostrar toast de erro
-      handleToast();
+      if (error instanceof AxiosError) {
+        // Mostrar toast de erro
+        handleToast({
+          title: "Authentication",
+          msg: error.message,
+        });
+      }
     }
   };
 
