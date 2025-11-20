@@ -3,14 +3,26 @@ import { Icon } from "@/components/base/icon";
 import { Image } from "@/components/base/image";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { api } from "@/config/axios-instance";
 
-import { Exercise } from "@/screens/home";
 import { ChevronRight } from "lucide-react-native";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
+export interface ExerciseType {
+  id: number;
+  name: string;
+  series: number;
+  repetitions: number;
+  group: string;
+  demo: string;
+  thumb: string;
+  created_at: string;
+  updated_at: string;
+}
+
 type Props = {
   onPress?: () => void;
-  data: Exercise;
+  data: ExerciseType;
 } & TouchableOpacityProps;
 
 export function ExerciseCard({ onPress, data }: Props) {
@@ -21,7 +33,7 @@ export function ExerciseCard({ onPress, data }: Props) {
     >
       {/* Imagem */}
       <Image
-        source={{ uri: data.image }}
+        source={{ uri: `${api.defaults.baseURL}/exercise/thumb/${data.thumb}` }}
         className="w-16 h-16 rounded-lg mr-4"
         resizeMode="cover"
       />
@@ -32,7 +44,7 @@ export function ExerciseCard({ onPress, data }: Props) {
           {data.name}
         </Heading>
         <Text size="sm" className="text-typography-100 font-roboto">
-          {data.series} séries x {data.reps} repetições
+          {data.series} séries x {data.series} repetições
         </Text>
       </VStack>
 
