@@ -5,7 +5,6 @@ import {
   FormControlErrorText,
 } from "@/components/base/form-control";
 import { Input, InputField } from "@/components/base/input";
-import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
 import { AlertCircleIcon } from "lucide-react-native";
 
@@ -13,11 +12,12 @@ interface Props {
   placeholder?: string;
   color?: "PRIMARY" | "SECONDARY";
   type?: "text" | "password";
-  value: string;
-  onChangeText: (value: string) => void;
-  onBlur: () => void;
-  isInvalid: boolean;
+  value?: string;
+  onChangeText?: (value: string) => void;
+  onBlur?: () => void;
+  isInvalid?: boolean;
   errorMessage?: string;
+  isDisabled?: boolean;
 }
 
 export function TextField({
@@ -29,6 +29,7 @@ export function TextField({
   onBlur,
   onChangeText,
   value,
+  isDisabled,
 }: Props) {
   const colorClasses = {
     PRIMARY: "bg-primary-350 border-primary-350",
@@ -38,7 +39,7 @@ export function TextField({
   return (
     <FormControl
       isInvalid={isInvalid}
-      isDisabled={false}
+      isDisabled={isDisabled}
       isReadOnly={false}
       isRequired={false}
     >
