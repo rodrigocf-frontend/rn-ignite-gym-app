@@ -8,7 +8,8 @@ import {
   AuthenticatedRoutes,
   AuthenticatedStackParamList,
 } from "./authenticated.route";
-import React from "react";
+import React, { use } from "react";
+import { AuthContext } from "@/store/AuthContext";
 
 type RootStackParamList = {
   public: NavigatorScreenParams<PublicStackParamList>;
@@ -18,6 +19,8 @@ type RootStackParamList = {
 export const RootStack = createNativeStackNavigator<RootStackParamList>();
 
 export const Routes = () => {
+  const { user } = use(AuthContext);
+
   return (
     <NavigationContainer>
       <RootStack.Navigator
@@ -29,11 +32,14 @@ export const Routes = () => {
           },
         }}
       >
-        <RootStack.Screen name="public" component={PublicRoutes} />
-        <RootStack.Screen
-          name="authenticated"
-          component={AuthenticatedRoutes}
-        />
+        {user ? (
+          <RootStack.Screen
+            name="authenticated"
+            component={AuthenticatedRoutes}
+          />
+        ) : (
+          <RootStack.Screen name="public" component={PublicRoutes} />
+        )}
       </RootStack.Navigator>
     </NavigationContainer>
   );
