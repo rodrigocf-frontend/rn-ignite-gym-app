@@ -1,10 +1,11 @@
-import { Button, ButtonText } from "@/components/base/button";
+import { Button, ButtonSpinner, ButtonText } from "@/components/base/button";
 import { PropsWithChildren } from "react";
 
 interface AppButton {
   variant?: "link" | "outline" | "solid";
   onPress?: () => void;
   isDisabled?: boolean;
+  isLoading?: boolean;
 }
 
 export function AppButton({
@@ -12,6 +13,7 @@ export function AppButton({
   onPress,
   variant = "solid",
   isDisabled = false,
+  isLoading,
 }: PropsWithChildren<AppButton>) {
   switch (variant) {
     case "solid":
@@ -23,6 +25,7 @@ export function AppButton({
           onPress={onPress}
           isDisabled={isDisabled}
         >
+          {isLoading && <ButtonSpinner className="text-white" />}
           <ButtonText className="text-base font-roboto text-typography-white">
             {children}
           </ButtonText>
@@ -37,6 +40,7 @@ export function AppButton({
           onPress={onPress}
           isDisabled={isDisabled}
         >
+          {isLoading && <ButtonSpinner className="text-white" />}
           <ButtonText className="font-roboto text-typography-green">
             {children}
           </ButtonText>
@@ -50,6 +54,7 @@ export function AppButton({
           onPress={onPress}
           isDisabled={isDisabled}
         >
+          {isLoading && <ButtonSpinner className="text-white" />}
           <ButtonText className="font-roboto text-typography-green">
             {children}
           </ButtonText>
@@ -64,6 +69,7 @@ export function AppButton({
           onPress={onPress}
           isDisabled={isDisabled}
         >
+          {isLoading && <ButtonSpinner className="text-white" />}
           <ButtonText className="font-roboto text-typography-white">
             {children}
           </ButtonText>
