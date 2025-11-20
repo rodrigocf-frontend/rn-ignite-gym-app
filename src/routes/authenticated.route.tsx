@@ -13,7 +13,7 @@ import {
 export type AuthenticatedStackParamList = {
   home: undefined;
   exercise: {
-    name: string;
+    id: number;
   };
   history: undefined;
   profile: undefined;
