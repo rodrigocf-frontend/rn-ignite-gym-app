@@ -20,8 +20,8 @@ export function ActiveButton({ onPress, isSelected, children }: Props) {
     >
       <Text
         bold={isSelected}
-        size="sm"
-        className={`font-roboto  ${
+        size="xs"
+        className={`font-roboto uppercase ${
           isSelected ? "text-typography-green" : "text-typography-100"
         }`}
       >
