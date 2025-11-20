@@ -12,10 +12,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData, loginSchema } from "@/schemas/loginschema";
-import { api, setUnauthorizedHandler } from "@/config/axios-instance";
+import { api } from "@/config/axios-instance";
 import { use, useEffect, useState } from "react";
 import { AuthContext } from "@/store/AuthContext";
-import { Alert } from "react-native";
 import {
   Toast,
   ToastDescription,
@@ -23,14 +22,14 @@ import {
   useToast,
 } from "@/components/base/toast";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Button, ButtonText } from "@/components/base/button";
+import { authenticate } from "@/services/auth";
 
 export function Login() {
   const toast = useToast();
   const [toastId, setToastId] = useState(0);
 
   const navigation = useNavigation();
-  const { login } = use(AuthContext);
+  const { login, user } = use(AuthContext);
 
   const {
     control,
@@ -79,15 +78,14 @@ export function Login() {
 
   const onSubmit = async (data: LoginFormData) => {
     try {
-      const { data: userData } = await api.post("/sessions", data);
+      const { data: userData } = await authenticate(data);
+      api.defaults.headers.common.Authorization = `Bearer ${userData.token}`;
 
       if (userData.user) {
         login(userData.user);
-        navigation.navigate("authenticated", {
-          screen: "home",
-        });
       }
     } catch (error) {
+      console.log(error);
       // Mostrar toast de erro
       handleToast();
     }
@@ -144,6 +142,7 @@ export function Login() {
           </VStack>
           <Box className="mt-8 justify-between flex-1 pb-20">
             <AppButton
+              isLoading={isSubmitting}
               onPress={handleSubmit(onSubmit)}
               isDisabled={isSubmitting}
             >
