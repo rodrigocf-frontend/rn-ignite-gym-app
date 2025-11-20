@@ -3,14 +3,14 @@ import { PropsWithChildren, createContext, useState } from "react";
 type User = {
   name: string;
   email: string;
-  avatar: null;
+  avatar: string;
   id: number;
 };
 
 type AuthHandlers = {
   login: (user: User) => void;
   logout: () => void;
-  setUsername: (name: string) => void;
+  updateUser: (name: Partial<User>) => void;
 };
 
 type AuthState = {
@@ -21,7 +21,7 @@ const initialState: AuthState = {
   user: null,
   login: (user: User) => {},
   logout: () => {},
-  setUsername: (name: string) => {},
+  updateUser: (user: Partial<User>) => {},
 };
 
 export const AuthContext = createContext<AuthState>(initialState);
@@ -33,14 +33,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
 
   const logout = () => setState(null);
 
-  const setUsername = (name: string) =>
+  const updateUser = (user: Partial<User>) =>
     setState((prevState) => {
       if (!prevState) {
         return prevState;
       }
       return {
         ...prevState,
-        name,
+        ...user,
       };
     });
 
@@ -50,7 +50,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         user: state,
         login,
         logout,
-        setUsername,
+        updateUser,
       }}
     >
       {children}

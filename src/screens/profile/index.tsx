@@ -1,4 +1,4 @@
-import React, { use, useState } from "react";
+import React, { use } from "react";
 import { Box } from "@/components/base/box";
 import { VStack } from "@/components/base/vstack";
 import { Heading } from "@/components/base/heading";
@@ -10,15 +10,17 @@ import {
 import { Center } from "@/components/base/center";
 import { TextField } from "@/components/common/textfield";
 import { AppButton } from "@/components/common/appbutton";
-import { ScrollView } from "react-native";
+import { Alert, ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema, ProfileFormData } from "@/schemas/profileSchema";
 import { AuthContext } from "@/store/AuthContext";
-import { updateUserData } from "@/services/user";
+import { updateUserAvatar, updateUserData } from "@/services/user";
+import * as ImagePicker from "expo-image-picker";
+import { api } from "@/config/axios-instance";
 
 export function Profile() {
-  const { user, setUsername } = use(AuthContext);
+  const { user, updateUser } = use(AuthContext);
 
   const {
     control,
@@ -42,7 +44,9 @@ export function Profile() {
       });
 
       if (response.status === 200) {
-        setUsername(data.name);
+        updateUser({
+          name: data.name,
+        });
         reset({
           name: data.name,
         });
@@ -50,8 +54,50 @@ export function Profile() {
     } catch {}
   };
 
-  const handleChangePhoto = () => {
-    console.log("Alterar foto");
+  const handleChangePhoto = async () => {
+    try {
+      const permissionResult =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+      if (!permissionResult.granted) {
+        Alert.alert(
+          "Permission required",
+          "Permission to access the media library is required."
+        );
+        return;
+      }
+
+      let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ["images"],
+        allowsEditing: true,
+        aspect: [1, 1],
+        quality: 0.5,
+      });
+
+      if (result && result.assets) {
+        const payload = {
+          uri: result.assets[0].uri,
+          type: result.assets[0].mimeType,
+          name: result.assets[0].fileName,
+        } as any;
+
+        const formData = new FormData();
+        formData.append("avatar", payload);
+
+        const response = await updateUserAvatar(formData);
+
+        if (response.status === 200) {
+          updateUser({
+            avatar: response.data.avatar,
+          });
+        }
+      }
+    } catch (e) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required."
+      );
+    }
   };
 
   return (
@@ -59,11 +105,12 @@ export function Profile() {
       <VStack className="flex-1 pt-8 pb-9">
         <Center className="pb-9 gap-3">
           <Avatar className="border-4 border-gray-800 w-48 h-48">
-            <AvatarFallbackText>Rodrigo Gonçalves</AvatarFallbackText>
+            <AvatarFallbackText size="xl">{user?.name}</AvatarFallbackText>
             <AvatarImage
               source={{
-                uri: "https://images.unsplash.com/photo-1570295999919-56ceb5ecca61?q=80&w=880",
+                uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
               }}
+              alt="user avatar"
             />
           </Avatar>
 

@@ -27,3 +27,20 @@ export const createUser = async (putData: CreateUserDTO) => {
     throw Error("Failed to create user.");
   }
 };
+
+type UpdateAvatarDTO = {
+  avatar: string;
+};
+
+export const updateUserAvatar = async (data: FormData) => {
+  try {
+    return await api.patch<UpdateAvatarDTO>(`/users/avatar`, data, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  } catch (e) {
+    console.log(e);
+    throw Error("Failed to update user avatar.");
+  }
+};

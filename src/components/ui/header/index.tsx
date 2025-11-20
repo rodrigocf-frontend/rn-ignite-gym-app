@@ -10,6 +10,7 @@ import { Icon } from "@/components/base/icon";
 import { Pressable } from "@/components/base/pressable";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { api } from "@/config/axios-instance";
 import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
 import { AuthContext } from "@/store/AuthContext";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
@@ -54,7 +55,7 @@ const HomeHeader = () => {
           <AvatarImage
             className="border-2 border-primary-100"
             source={{
-              uri: user?.avatar ?? "",
+              uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
             }}
           />
         </Avatar>
@@ -85,7 +86,6 @@ const HomeHeader = () => {
 
 const ExerciseHeader = () => {
   const navigation = useNavigation();
-  const route = useRoute<RouteProp<AuthenticatedStackParamList, "exercise">>();
 
   return (
     <VStack space="md">
