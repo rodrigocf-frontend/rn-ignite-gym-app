@@ -40,9 +40,11 @@ export function Header({ type, optionsBottomTabs }: Props) {
 
 const HomeHeader = () => {
   const navigation = useNavigation();
-  const { user } = use(AuthContext);
+  const { user, logout } = use(AuthContext);
 
-  console.log(user);
+  const logoutHandler = () => {
+    logout();
+  };
 
   return (
     <HStack className="justify-between items-center">
@@ -50,8 +52,9 @@ const HomeHeader = () => {
         <Avatar size="lg">
           <AvatarFallbackText>Jane Doe</AvatarFallbackText>
           <AvatarImage
+            className="border-2 border-primary-100"
             source={{
-              uri: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80",
+              uri: user?.avatar ?? "",
             }}
           />
         </Avatar>
@@ -68,7 +71,7 @@ const HomeHeader = () => {
         </VStack>
       </HStack>
 
-      <Pressable onPress={() => navigation.goBack()}>
+      <Pressable onPress={logoutHandler}>
         <Icon
           className="text-primary-100"
           as={LogOutIcon}
@@ -91,7 +94,7 @@ const ExerciseHeader = () => {
       </Pressable>
       <HStack className="justify-between items-center">
         <Heading className="text-typography-50 font-roboto text-xl">
-          {route.params.name}
+          {/* {route.params?.name} */}
         </Heading>
         <HStack space="xs" className="items-center">
           <Icon fill="#7C7C8A" stroke="#7C7C8A" as={PersonIcon} size="md" />
