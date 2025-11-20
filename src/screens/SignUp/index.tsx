@@ -12,6 +12,7 @@ import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpFormData, signUpSchema } from "@/schemas/signupschema";
 import { ImageBackground } from "@/components/base/image-background";
+import { createUser } from "@/services/user";
 
 export function SignUp() {
   const navigation = useNavigation();
@@ -32,14 +33,17 @@ export function SignUp() {
 
   const onSubmit = async (data: SignUpFormData) => {
     try {
-      console.log("Dados do formulário:", data);
-      // Aqui você faria a chamada à API
-      // await createAccount(data);
+      await createUser({
+        name: data.name,
+        email: data.email,
+        password: data.password,
+      });
 
-      // Navegar para tela autenticada
-      // navigation.navigate("authenticated");
+      // Opcional: mostrar toast de sucesso
+      navigation.goBack();
     } catch (error) {
       console.error("Erro ao criar conta:", error);
+      // Opcional: mostrar toast de erro
     }
   };
 
@@ -124,8 +128,12 @@ export function SignUp() {
             />
           </VStack>
           <Box className="mt-8 justify-between flex-1 pb-10">
-            <AppButton onPress={handleSubmit(onSubmit)}>
-              {isSubmitting ? "Criando..." : "Criar e acessar"}
+            <AppButton
+              onPress={handleSubmit(onSubmit)}
+              isLoading={isSubmitting}
+              isDisabled={isSubmitting}
+            >
+              Criar e acessar
             </AppButton>
 
             <Box className="mt-3">
