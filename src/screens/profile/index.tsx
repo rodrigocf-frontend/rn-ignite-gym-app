@@ -1,4 +1,4 @@
-import React, { use, useCallback, useEffect } from "react";
+import React, { use } from "react";
 import { Box } from "@/components/base/box";
 import { VStack } from "@/components/base/vstack";
 import { Heading } from "@/components/base/heading";
@@ -70,23 +70,18 @@ export function Profile() {
         reset({
           oldPassword: " ",
         });
+
+        handleToast({
+          title: "Senha",
+          msg: `A senha antiga informada inválida`,
+          sucess: false,
+        });
       }
     }
   };
 
   const handleChangePhoto = async () => {
     try {
-      const permissionResult =
-        await ImagePicker.requestMediaLibraryPermissionsAsync();
-
-      if (!permissionResult.granted) {
-        Alert.alert(
-          "Permission required",
-          "Permission to access the media library is required."
-        );
-        return;
-      }
-
       let result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ["images"],
         allowsEditing: true,
@@ -118,11 +113,12 @@ export function Profile() {
           });
         }
       }
-    } catch (e) {
-      Alert.alert(
-        "Permission required",
-        "Permission to access the media library is required."
-      );
+    } catch {
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao atualizar usuário",
+      });
     }
   };
 
@@ -141,12 +137,15 @@ export function Profile() {
         <Center className="pb-9 gap-3">
           <Avatar className="border-4 border-gray-800 w-48 h-48">
             <AvatarFallbackText size="xl">{user?.name}</AvatarFallbackText>
-            <AvatarImage
-              source={{
-                uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
-              }}
-              alt="user avatar"
-            />
+
+            {user?.avatar && (
+              <AvatarImage
+                source={{
+                  uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
+                }}
+                alt="user avatar"
+              />
+            )}
           </Avatar>
 
           <AppButton variant="link" onPress={handleChangePhoto}>
@@ -158,9 +157,13 @@ export function Profile() {
           <Controller
             control={control}
             name="name"
-            render={({ field: { onChange, onBlur, value } }) => (
+            render={({
+              field: { onChange, onBlur, value },
+              fieldState: { invalid },
+            }) => (
               <TextField
                 value={value}
+                isInvalid={invalid}
                 onChangeText={onChange}
                 onBlur={onBlur}
                 color="SECONDARY"
@@ -173,9 +176,10 @@ export function Profile() {
           <Controller
             control={control}
             name="email"
-            render={({ field: { onBlur, value } }) => (
+            render={({ field: { onBlur, value }, fieldState: { invalid } }) => (
               <TextField
                 value={value}
+                isInvalid={invalid}
                 isDisabled
                 color="SECONDARY"
                 placeholder="E-mail"
@@ -197,11 +201,15 @@ export function Profile() {
               <Controller
                 control={control}
                 name="oldPassword"
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { invalid },
+                }) => (
                   <TextField
                     value={value}
                     onChangeText={onChange}
                     onBlur={onBlur}
+                    isInvalid={invalid}
                     color="SECONDARY"
                     placeholder="Senha antiga"
                     type="password"
@@ -213,12 +221,16 @@ export function Profile() {
               <Controller
                 control={control}
                 name="newPassword"
-                render={({ field: { onChange, onBlur, value } }) => (
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { invalid },
+                }) => (
                   <TextField
                     onChangeText={onChange}
                     value={value}
                     onBlur={onBlur}
                     color="SECONDARY"
+                    isInvalid={invalid}
                     placeholder="Nova senha"
                     type="password"
                     errorMessage={errors.newPassword?.message}

@@ -21,7 +21,6 @@ export const profileSchema = yup.object({
   newPassword: yup
     .string()
     .transform((value) => value || undefined)
-    .optional()
     .test(
       "min-length",
       "A senha deve ter no mínimo 6 caracteres",

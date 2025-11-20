@@ -39,8 +39,7 @@ export const updateUserAvatar = async (data: FormData) => {
         "Content-Type": "multipart/form-data",
       },
     });
-  } catch (e) {
-    console.log(e);
+  } catch {
     throw Error("Failed to update user avatar.");
   }
 };

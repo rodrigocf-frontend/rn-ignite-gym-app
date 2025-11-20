@@ -19,7 +19,6 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log("response ");
     UnauthorizedHandler?.();
     return Promise.reject(error);
   }

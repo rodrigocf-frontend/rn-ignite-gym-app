@@ -36,6 +36,7 @@ export function ExerciseCard({ onPress, data }: Props) {
         source={{ uri: `${api.defaults.baseURL}/exercise/thumb/${data.thumb}` }}
         className="w-16 h-16 rounded-lg mr-4"
         resizeMode="cover"
+        alt="execução do exercício"
       />
 
       {/* Conteúdo */}

@@ -22,7 +22,6 @@ export function ToastProvider({ children }: PropsWithChildren) {
 
   const handleToast = (params: ActionParams) => {
     if (!toast.isActive(toastId.toString())) {
-      console.log("asdad");
       showNewToast(params);
     }
   };
@@ -40,7 +39,7 @@ export function ToastProvider({ children }: PropsWithChildren) {
 
         return (
           <Toast
-            className={`${isSucess} z-50`}
+            className={`${isSucess} z-50 pt-[50%]`}
             nativeID={uniqueToastId}
             action="muted"
             variant="solid"

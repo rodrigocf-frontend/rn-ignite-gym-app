@@ -13,9 +13,12 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpFormData, signUpSchema } from "@/schemas/signupschema";
 import { ImageBackground } from "@/components/base/image-background";
 import { createUser } from "@/services/user";
+import { use } from "react";
+import { ToastContext } from "@/store/ToastContext";
 
 export function SignUp() {
   const navigation = useNavigation();
+  const { handleToast } = use(ToastContext);
 
   const {
     control,
@@ -38,12 +41,18 @@ export function SignUp() {
         email: data.email,
         password: data.password,
       });
-
-      // Opcional: mostrar toast de sucesso
       navigation.goBack();
+      handleToast({
+        sucess: true,
+        title: "Sucess",
+        msg: "Conta criada com sucesso.",
+      });
     } catch (error) {
-      console.error("Erro ao criar conta:", error);
-      // Opcional: mostrar toast de erro
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao criar conta.",
+      });
     }
   };
 

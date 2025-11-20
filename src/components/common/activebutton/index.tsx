@@ -8,7 +8,6 @@ type Props = PropsWithChildren<{
 }>;
 
 export function ActiveButton({ onPress, isSelected, children }: Props) {
-  console.log(isSelected);
   return (
     <Button
       onPress={onPress}

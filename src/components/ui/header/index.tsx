@@ -51,13 +51,15 @@ const HomeHeader = () => {
     <HStack className="justify-between items-center">
       <HStack space="lg">
         <Avatar size="lg">
-          <AvatarFallbackText>Jane Doe</AvatarFallbackText>
-          <AvatarImage
-            className="border-2 border-primary-100"
-            source={{
-              uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
-            }}
-          />
+          <AvatarFallbackText>{user?.name}</AvatarFallbackText>
+          {user?.avatar && (
+            <AvatarImage
+              className="border-2 border-primary-100"
+              source={{
+                uri: `${api.defaults.baseURL}/avatar/${user?.avatar}`,
+              }}
+            />
+          )}
         </Avatar>
         <VStack className="justify-center">
           <Text className="text-typography-50 font-roboto text-base" size="sm">

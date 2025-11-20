@@ -20,6 +20,7 @@ import { RepeatIcon } from "lucide-react-native";
 import { Path } from "react-native-svg";
 import { AuthContext } from "@/store/AuthContext";
 import { createHistory } from "@/services/histories";
+import { ToastContext } from "@/store/ToastContext";
 
 type ExerciseScreenProps = RouteProp<AuthenticatedStackParamList, "exercise">;
 
@@ -66,6 +67,7 @@ export function Exercise() {
   const { user } = use(AuthContext);
   const navigation = useNavigation();
   const [isLoading, setLoading] = useState(false);
+  const { handleToast } = use(ToastContext);
 
   const postHistoryHandler = async () => {
     try {
@@ -75,12 +77,24 @@ export function Exercise() {
           exercise_id: id,
         });
 
+        handleToast({
+          title: "Hitórico",
+          msg: "Salvo com sucesso.",
+          sucess: true,
+        });
+
         navigation.navigate("authenticated", {
           screen: "history",
         });
       }
     } catch {
-      setLoading((prevState) => !prevState);
+      handleToast({
+        title: "Hitórico",
+        msg: "Falha ao salvar histórico.",
+        sucess: false,
+      });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -88,7 +102,13 @@ export function Exercise() {
     try {
       const { data } = await getExerciseDetails(id);
       setExercise(data);
-    } catch {}
+    } catch {
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao buscar dados do exercício.",
+      });
+    }
   };
 
   useEffect(() => {
@@ -111,7 +131,7 @@ export function Exercise() {
             source={{
               uri: `${api.defaults.baseURL}/exercise/demo/${exercise?.demo}`,
             }}
-            alt="image"
+            alt="imagem do exercício"
           />
         </HStack>
 

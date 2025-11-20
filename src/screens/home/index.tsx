@@ -9,25 +9,39 @@ import { ActiveButton } from "@/components/common/activebutton";
 import { ExerciseType, ExerciseCard } from "@/components/ui/cards/exercisecard";
 import { getExercisesByGroup, getGroups } from "@/services/exercises";
 import { useNavigation } from "@react-navigation/native";
+import { ToastContext } from "@/store/ToastContext";
 
 export function Home() {
   const [selectedGroup, setSelectedGroup] = useState<string>("costas");
   const [groups, setGroups] = useState([]);
   const [exercises, setExercises] = useState([]);
   const navigation = useNavigation();
+  const { handleToast } = use(ToastContext);
 
   const fetchGroups = async () => {
     try {
       const { data } = await getGroups();
       setGroups(data);
-    } catch {}
+    } catch {
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao buscar grupos",
+      });
+    }
   };
 
   const fetchExerciesByGroup = async () => {
     try {
       const { data } = await getExercisesByGroup(selectedGroup);
       setExercises(data);
-    } catch {}
+    } catch {
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao buscar exercícios.",
+      });
+    }
   };
 
   const renderMuscleButton: ListRenderItem<string> = ({ item }) => {

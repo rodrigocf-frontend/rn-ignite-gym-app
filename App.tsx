@@ -18,7 +18,6 @@ export default function App() {
   };
 
   useEffect(() => {
-    console.log(Platform.OS);
     if (Platform.OS === "android") {
       hideNativeBar();
     }

@@ -2,18 +2,26 @@ import { Box } from "@/components/base/box";
 import { Heading } from "@/components/base/heading";
 import { HistoryCard } from "@/components/ui/cards/historycard";
 import { HistoryDTO, getHistory } from "@/services/histories";
+import { ToastContext } from "@/store/ToastContext";
 import { useFocusEffect } from "@react-navigation/native";
-import { useCallback, useEffect, useState } from "react";
+import { use, useCallback, useEffect, useState } from "react";
 import { SectionList } from "react-native";
 
 export function History() {
   const [histories, setHistories] = useState<HistoryDTO[]>([]);
+  const { handleToast } = use(ToastContext);
 
   const fetchHistories = async () => {
     try {
       const { data } = await getHistory();
       setHistories(data);
-    } catch (e) {}
+    } catch (e) {
+      handleToast({
+        sucess: false,
+        title: "Erro",
+        msg: "Falha ao buscar histórico.",
+      });
+    }
   };
 
   useFocusEffect(
