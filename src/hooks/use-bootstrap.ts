@@ -1,6 +1,5 @@
 import { User } from "@/store/AuthContext";
 import { useEffect, useState } from "react";
-import { Platform } from "react-native";
 import { refreshAuthenticate } from "@/services/auth";
 import { getStorageUser } from "@/storage/user";
 

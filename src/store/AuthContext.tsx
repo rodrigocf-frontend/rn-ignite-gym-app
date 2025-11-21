@@ -1,6 +1,7 @@
 import { setLogoutHandler } from "@/config/api";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
 import { clearAuthenticate } from "@/services/auth";
+import { setStorageUser } from "@/storage/user";
 
 export type User = {
   name: string;
@@ -12,7 +13,7 @@ export type User = {
 type AuthHandlers = {
   login: (user: User) => void;
   logout: () => void;
-  updateUser: (name: Partial<User>) => void;
+  updateUser: (name: Partial<User>) => Promise<void>;
 };
 
 type AuthState = {
@@ -23,7 +24,7 @@ const initialState: AuthState = {
   user: null,
   login: (user: User) => {},
   logout: () => {},
-  updateUser: (user: Partial<User>) => {},
+  updateUser: async (user: Partial<User>) => {},
 };
 
 export const AuthContext = createContext<AuthState>(initialState);
@@ -41,7 +42,8 @@ export function AuthProvider({
     clearAuthenticate();
   };
 
-  const updateUser = (user: Partial<User>) =>
+  const updateUser = async (user: Partial<User>) => {
+    await setStorageUser(user);
     setState((prevState) => {
       if (!prevState) {
         return prevState;
@@ -51,6 +53,7 @@ export function AuthProvider({
         ...user,
       };
     });
+  };
 
   useEffect(() => {
     setLogoutHandler(logout);

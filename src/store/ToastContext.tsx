@@ -5,6 +5,7 @@ import {
   useToast,
 } from "@/components/base/toast";
 import { PropsWithChildren, createContext, useState } from "react";
+import { StatusBar } from "react-native";
 
 export type ToastActionParams = {
   title: string;
@@ -27,9 +28,16 @@ export function ToastProvider({ children }: PropsWithChildren) {
   };
 
   const showNewToast = ({ sucess, title, msg }: ToastActionParams) => {
+    const margin = StatusBar.currentHeight
+      ? StatusBar.currentHeight + 50
+      : "auto";
+
     const newId = Math.random();
     setToastId(newId);
     toast.show({
+      containerStyle: {
+        marginTop: margin,
+      },
       placement: "top",
       id: newId.toString(),
       duration: 2000,

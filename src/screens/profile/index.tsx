@@ -10,7 +10,7 @@ import {
 import { Center } from "@/components/base/center";
 import { TextField } from "@/components/common/textfield";
 import { AppButton } from "@/components/common/appbutton";
-import { Alert, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { profileSchema, ProfileFormData } from "@/schemas/profileSchema";
@@ -102,7 +102,7 @@ export function Profile() {
         const response = await updateUserAvatar(formData);
 
         if (response.status === 200) {
-          updateUser({
+          await updateUser({
             avatar: response.data.avatar,
           });
 

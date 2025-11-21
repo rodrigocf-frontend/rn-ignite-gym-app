@@ -5,7 +5,7 @@ enum UserKeys {
   USER = "@ignitegym:user",
 }
 
-export const setStorageUser = async (data: User) =>
+export const setStorageUser = async (data: User | Partial<User>) =>
   AsyncStorage.setItem(UserKeys.USER, JSON.stringify(data));
 
 export const getStorageUser = async (): Promise<User | undefined> => {
