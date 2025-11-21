@@ -1,7 +1,8 @@
 import { setLogoutHandler } from "@/config/api";
 import { PropsWithChildren, createContext, useEffect, useState } from "react";
+import { clearAuthenticate } from "@/services/auth";
 
-type User = {
+export type User = {
   name: string;
   email: string;
   avatar: string;
@@ -27,12 +28,18 @@ const initialState: AuthState = {
 
 export const AuthContext = createContext<AuthState>(initialState);
 
-export function AuthProvider({ children }: PropsWithChildren) {
-  const [state, setState] = useState(initialState.user);
+export function AuthProvider({
+  children,
+  user,
+}: PropsWithChildren<{ user: User | null }>) {
+  const [state, setState] = useState(user);
 
   const login = (user: User) => setState(user);
 
-  const logout = () => setState(null);
+  const logout = () => {
+    setState(null);
+    clearAuthenticate();
+  };
 
   const updateUser = (user: Partial<User>) =>
     setState((prevState) => {
@@ -48,6 +55,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     setLogoutHandler(logout);
   }, []);
+
+  useEffect(() => {
+    if (user) {
+      login(user);
+    }
+  }, [user]);
 
   return (
     <AuthContext.Provider

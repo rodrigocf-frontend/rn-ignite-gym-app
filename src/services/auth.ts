@@ -1,13 +1,26 @@
 import { api } from "@/config/api";
 import { LoginFormData } from "@/schemas/loginschema";
-import { getRefreshToken, setRefreshToken, setToken } from "@/storage/session";
+import {
+  clearStorageTokens,
+  getStorageRefreshToken,
+  setStorageRefreshToken,
+  setStorageToken,
+} from "@/storage/tokens";
+import { clearStorageUser, setStorageUser } from "@/storage/user";
 
 export const authenticate = async (formData: LoginFormData) => {
   try {
     const response = await api.post("/sessions", formData);
     if (response.data) {
-      await setToken(response.data.token);
-      await setRefreshToken(response.data.refresh_token);
+      await setStorageToken(response.data.token);
+      await setStorageRefreshToken(response.data.refresh_token);
+      await setStorageUser({
+        email: response.data.user.email,
+        name: response.data.user.name,
+        id: response.data.user.id,
+        avatar: response.data.user.avatar,
+      });
+
       api.defaults.headers.common.Authorization = `Bearer ${response.data.token}`;
       return response;
     }
@@ -19,13 +32,22 @@ export const authenticate = async (formData: LoginFormData) => {
 
 export const refreshAuthenticate = async () => {
   try {
-    const sessionToken = await getRefreshToken();
-    const { data } = await api.post("/sessions/refresh-token", {
-      refresh_token: sessionToken,
-    });
-    setToken(data.token);
-    return data.token;
+    const sessionToken = await getStorageRefreshToken();
+    if (sessionToken) {
+      const response = await api.post("/sessions/refresh-token", {
+        refresh_token: sessionToken,
+      });
+
+      await setStorageToken(response.data.token);
+      return response.data.token;
+    }
+    return;
   } catch (e) {
     throw e;
   }
+};
+
+export const clearAuthenticate = async () => {
+  await clearStorageTokens();
+  await clearStorageUser();
 };

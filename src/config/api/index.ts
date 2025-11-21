@@ -1,4 +1,4 @@
-import { refreshAuthenticate } from "@/services/auth";
+import { getStorageRefreshToken } from "@/storage/tokens";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 let logoutHandler: () => void = () => {};
@@ -50,7 +50,7 @@ api.interceptors.response.use(
           return new Promise((resolve, reject) => {
             failedQueue.push({ resolve, reject });
           })
-            .then((token) => {
+            .then(() => {
               return api(originalConfig);
             })
             .catch((err) => Promise.reject(err));
@@ -60,11 +60,16 @@ api.interceptors.response.use(
         originalConfig._retry = true;
 
         try {
-          const refreshToken = await refreshAuthenticate();
-          if (!refreshToken) {
+          const refreshToken = await getStorageRefreshToken();
+          const { data } = await api.post("/sessions/refresh-token", {
+            refresh_token: refreshToken,
+          });
+
+          const token = data.token;
+          if (!token) {
             return logoutHandler();
           }
-          originalConfig.headers.Authorization = `Bearer ${refreshToken}`;
+          originalConfig.headers.Authorization = `Bearer ${token}`;
           processQueue(null, refreshToken);
 
           return api(originalConfig);

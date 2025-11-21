@@ -1,39 +1,33 @@
-import { StatusBar } from "expo-status-bar";
 import "./global.css";
-import { GluestackUIProvider, ModeType } from "config/gluestack-ui-provider";
-import * as NavigationBar from "expo-navigation-bar";
-import { useEffect, useState } from "react";
-import { Platform } from "react-native";
 import { Box } from "@/components/base/box";
 import { Routes } from "@/routes/index.route";
 import { Providers } from "@/store";
+import { SystemBars } from "react-native-edge-to-edge";
+
+type Style = "auto" | "inverted" | "light" | "dark";
+
+type SystemBarsProps = {
+  // set the color of the system bar content (as no effect on semi-opaque navigation bar)
+  style?: Style | { statusBar?: Style; navigationBar?: Style };
+  // hide system bars (the navigation bar cannot be hidden on iOS)
+  hidden?: boolean | { statusBar?: boolean; navigationBar?: boolean };
+};
 
 export default function App() {
-  const [barVisibility, setBarVisibility] = useState(true);
-
-  const hideNativeBar = async () => {
-    await NavigationBar.setVisibilityAsync("hidden").finally(() => {
-      setBarVisibility(false);
-    });
-  };
-
-  useEffect(() => {
-    if (Platform.OS === "android") {
-      hideNativeBar();
-    }
-  }, []);
-
-  if (!barVisibility) {
-    return (
-      <GluestackUIProvider>
-        <Providers>
-          <Box className="flex-1 bg-primary-350">
-            <Routes />
-          </Box>
-          <StatusBar style="light" />
-        </Providers>
-      </GluestackUIProvider>
-    );
-  }
-  return <></>;
+  return (
+    <Providers>
+      <Box className="flex-1 bg-primary-350">
+        <Routes />
+      </Box>
+      <SystemBars
+        hidden={{
+          navigationBar: true,
+        }}
+        style={{
+          navigationBar: "dark",
+          statusBar: "light",
+        }}
+      />
+    </Providers>
+  );
 }
