@@ -3,7 +3,7 @@ import { Icon } from "@/components/base/icon";
 import { Image } from "@/components/base/image";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
-import { api } from "@/config/axios-instance";
+import { api } from "@/config/api";
 
 import { ChevronRight } from "lucide-react-native";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";

@@ -1,4 +1,5 @@
-import { PropsWithChildren, createContext, useState } from "react";
+import { setLogoutHandler } from "@/config/api";
+import { PropsWithChildren, createContext, useEffect, useState } from "react";
 
 type User = {
   name: string;
@@ -43,6 +44,10 @@ export function AuthProvider({ children }: PropsWithChildren) {
         ...user,
       };
     });
+
+  useEffect(() => {
+    setLogoutHandler(logout);
+  }, []);
 
   return (
     <AuthContext.Provider

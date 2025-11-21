@@ -1,7 +1,6 @@
 import { Box } from "@/components/base/box";
 import { Heading } from "@/components/base/heading";
 import { HistoryCard } from "@/components/ui/cards/historycard";
-import { setErrorHandler } from "@/config/axios-instance";
 import { HistoryDTO, getHistory } from "@/services/histories";
 import { ToastContext } from "@/store/ToastContext";
 import { useFocusEffect } from "@react-navigation/native";
@@ -17,14 +16,17 @@ export function History() {
       const { data } = await getHistory();
       setHistories(data);
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        title: "Histórico",
+        msg: "Falha ao buscar histórico.",
+      });
     }
   };
 
   useFocusEffect(
     useCallback(() => {
       fetchHistories();
-    }, []) // Array de dependências vazio
+    }, [])
   );
 
   return (

@@ -1,25 +1,9 @@
-import { api } from "@/config/axios-instance";
+import { api } from "@/config/api";
 
-export const getGroups = async () => {
-  try {
-    return await api.get("/groups");
-  } catch {
-    throw Error("Failed to fetch groups.");
-  }
-};
+export const getGroups = async () => await api.get("/groups");
 
-export const getExercisesByGroup = async (groupName: string) => {
-  try {
-    return await api.get(`/exercises/bygroup/${groupName}`);
-  } catch {
-    throw Error("Failed to fetch exercises by groupName.");
-  }
-};
+export const getExercisesByGroup = async (groupName: string) =>
+  await api.get(`/exercises/bygroup/${groupName}`);
 
-export const getExerciseDetails = async (id: number) => {
-  try {
-    return await api.get(`/exercises/${id}`);
-  } catch {
-    throw Error("Failed to fetch exercise details.");
-  }
-};
+export const getExerciseDetails = async (id: number) =>
+  await api.get(`/exercises/${id}`);

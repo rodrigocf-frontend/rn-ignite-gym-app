@@ -12,7 +12,7 @@ import {
   useRoute,
 } from "@react-navigation/native";
 import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
-import { api, setErrorHandler } from "@/config/axios-instance";
+import { api } from "@/config/api";
 import { use, useCallback, useEffect, useState } from "react";
 import { ExerciseType } from "@/components/ui/cards/exercisecard";
 import { getExerciseDetails } from "@/services/exercises";
@@ -88,7 +88,10 @@ export function Exercise() {
         });
       }
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        title: "History",
+        msg: "Falha ao salvar histórico",
+      });
     } finally {
       setLoading(false);
     }
@@ -99,7 +102,10 @@ export function Exercise() {
       const { data } = await getExerciseDetails(id);
       setExercise(data);
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        msg: "",
+        title: "",
+      });
     }
   };
 

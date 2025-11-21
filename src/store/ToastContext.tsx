@@ -32,14 +32,14 @@ export function ToastProvider({ children }: PropsWithChildren) {
     toast.show({
       placement: "top",
       id: newId.toString(),
-      duration: 3000,
+      duration: 2000,
       render: ({}) => {
         const uniqueToastId = "toast-" + newId;
         const isSucess = sucess ? "bg-green-600" : "bg-red-600";
 
         return (
           <Toast
-            className={`${isSucess} z-50 pt-[50%]`}
+            className={`${isSucess} z-50`}
             nativeID={uniqueToastId}
             action="muted"
             variant="solid"

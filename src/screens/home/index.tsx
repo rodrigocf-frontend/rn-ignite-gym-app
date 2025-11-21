@@ -1,7 +1,6 @@
 import React, { use, useEffect, useState } from "react";
 import { FlatList, ListRenderItem } from "react-native";
 import { Box } from "@/components/base/box";
-
 import { HStack } from "@/components/base/hstack";
 import { Heading } from "@/components/base/heading";
 import { Text } from "@/components/base/text";
@@ -10,7 +9,6 @@ import { ExerciseType, ExerciseCard } from "@/components/ui/cards/exercisecard";
 import { getExercisesByGroup, getGroups } from "@/services/exercises";
 import { useNavigation } from "@react-navigation/native";
 import { ToastContext } from "@/store/ToastContext";
-import { setErrorHandler } from "@/config/axios-instance";
 
 export function Home() {
   const [selectedGroup, setSelectedGroup] = useState<string>("costas");
@@ -24,7 +22,10 @@ export function Home() {
       const { data } = await getGroups();
       setGroups(data);
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        title: "Grupos",
+        msg: "Falha ao buscar grupos.",
+      });
     }
   };
 
@@ -33,7 +34,10 @@ export function Home() {
       const { data } = await getExercisesByGroup(selectedGroup);
       setExercises(data);
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        title: "Exercícios",
+        msg: "Falha ao buscar exercícios.",
+      });
     }
   };
 

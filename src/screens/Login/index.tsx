@@ -12,15 +12,9 @@ import { useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData, loginSchema } from "@/schemas/loginschema";
-import { api, setErrorHandler } from "@/config/axios-instance";
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import { AuthContext } from "@/store/AuthContext";
-import {
-  Toast,
-  ToastDescription,
-  ToastTitle,
-  useToast,
-} from "@/components/base/toast";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import { authenticate } from "@/services/auth";
 import { ToastContext } from "@/store/ToastContext";
@@ -38,16 +32,14 @@ export function Login() {
   } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: "",
-      password: "",
+      email: "mec@email.com",
+      password: "1234567",
     },
   });
 
   const onSubmit = async (data: LoginFormData) => {
     try {
       const { data: userData } = await authenticate(data);
-      api.defaults.headers.common.Authorization = `Bearer ${userData.token}`;
-
       if (userData.user) {
         login(userData.user);
         handleToast({
@@ -56,8 +48,11 @@ export function Login() {
           sucess: true,
         });
       }
-    } catch {
-      setErrorHandler(handleToast);
+    } catch (e) {
+      handleToast({
+        title: "Authentication",
+        msg: "Falha na autenticação.",
+      });
     }
   };
 
@@ -116,7 +111,7 @@ export function Login() {
               onPress={handleSubmit(onSubmit)}
               isDisabled={isSubmitting}
             >
-              {isSubmitting ? "Acessando..." : "Acessar"}
+              Acessar
             </AppButton>
             <Box>
               <Center>

@@ -10,7 +10,7 @@ import { Icon } from "@/components/base/icon";
 import { Pressable } from "@/components/base/pressable";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
-import { api } from "@/config/axios-instance";
+import { api } from "@/config/api";
 import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
 import { AuthContext } from "@/store/AuthContext";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";

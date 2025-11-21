@@ -17,10 +17,10 @@ import { profileSchema, ProfileFormData } from "@/schemas/profileSchema";
 import { AuthContext } from "@/store/AuthContext";
 import { updateUserAvatar, updateUserData } from "@/services/user";
 import * as ImagePicker from "expo-image-picker";
-import { api, setErrorHandler } from "@/config/axios-instance";
 import { useFocusEffect } from "@react-navigation/native";
 import { AxiosError } from "axios";
 import { ToastContext } from "@/store/ToastContext";
+import { api } from "@/config/api";
 
 export function Profile() {
   const { user, updateUser } = use(AuthContext);
@@ -71,7 +71,11 @@ export function Profile() {
           oldPassword: " ",
         });
 
-        setErrorHandler(handleToast);
+        handleToast({
+          title: "Usuário",
+          msg: "Falh ao atualizar dados do usuário",
+          sucess: false,
+        });
       }
     }
   };
@@ -110,7 +114,11 @@ export function Profile() {
         }
       }
     } catch {
-      setErrorHandler(handleToast);
+      handleToast({
+        title: "Usuário",
+        msg: "Falh ao atualizar dados do usuário",
+        sucess: false,
+      });
     }
   };
 
@@ -118,7 +126,12 @@ export function Profile() {
     React.useCallback(() => {
       // Do something when the screen is focused
       return () => {
-        reset();
+        reset({
+          name: user?.name,
+          email: user?.email,
+          newPassword: "",
+          oldPassword: "",
+        });
       };
     }, [])
   );
@@ -237,7 +250,7 @@ export function Profile() {
             isLoading={isSubmitting}
             isDisabled={isSubmitting ?? !isDirty}
           >
-            {isSubmitting ? "Atualizando..." : "Atualizar"}
+            Atualizar
           </AppButton>
         </VStack>
       </VStack>

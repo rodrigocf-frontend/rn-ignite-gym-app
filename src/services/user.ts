@@ -1,4 +1,4 @@
-import { api } from "@/config/axios-instance";
+import { api } from "@/config/api";
 
 type UpdateUserDTO = {
   name: string;
@@ -6,13 +6,8 @@ type UpdateUserDTO = {
   old_password?: string;
 };
 
-export const updateUserData = async (putData: UpdateUserDTO) => {
-  try {
-    return await api.put(`/users`, putData);
-  } catch (e) {
-    throw e;
-  }
-};
+export const updateUserData = async (putData: UpdateUserDTO) =>
+  await api.put(`/users`, putData);
 
 type CreateUserDTO = {
   name: string;
@@ -20,26 +15,16 @@ type CreateUserDTO = {
   password: string;
 };
 
-export const createUser = async (putData: CreateUserDTO) => {
-  try {
-    return await api.post(`/users`, putData);
-  } catch {
-    throw Error("Failed to create user.");
-  }
-};
+export const createUser = async (putData: CreateUserDTO) =>
+  await api.post(`/users`, putData);
 
 type UpdateAvatarDTO = {
   avatar: string;
 };
 
-export const updateUserAvatar = async (data: FormData) => {
-  try {
-    return await api.patch<UpdateAvatarDTO>(`/users/avatar`, data, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-  } catch {
-    throw Error("Failed to update user avatar.");
-  }
-};
+export const updateUserAvatar = async (data: FormData) =>
+  await api.patch<UpdateAvatarDTO>(`/users/avatar`, data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
