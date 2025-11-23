@@ -1,4 +1,4 @@
-import { getStorageRefreshToken } from "@/storage/tokens";
+import { getStorageRefreshToken, setStorageToken } from "@/storage/tokens";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 let logoutHandler: () => void = () => {};
@@ -69,6 +69,9 @@ api.interceptors.response.use(
           if (!token) {
             return logoutHandler();
           }
+
+          console.log("refreshed");
+          await setStorageToken(token);
           originalConfig.headers.Authorization = `Bearer ${token}`;
           processQueue(null, refreshToken);
 
