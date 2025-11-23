@@ -1,4 +1,8 @@
-import { getStorageRefreshToken, setStorageToken } from "@/storage/tokens";
+import {
+  getStorageRefreshToken,
+  getStorageToken,
+  setStorageToken,
+} from "@/storage/tokens";
 import axios, { AxiosError, InternalAxiosRequestConfig } from "axios";
 
 let logoutHandler: () => void = () => {};
@@ -70,9 +74,9 @@ api.interceptors.response.use(
             return logoutHandler();
           }
 
-          console.log("refreshed");
           await setStorageToken(token);
           originalConfig.headers.Authorization = `Bearer ${token}`;
+
           processQueue(null, refreshToken);
 
           return api(originalConfig);
@@ -81,10 +85,12 @@ api.interceptors.response.use(
         } finally {
           isRefreshing = false;
         }
-      } else if (
-        error.response?.status === 404 &&
-        error.response.data.status === "error"
-      ) {
+      }
+
+      const token = await getStorageToken();
+      if (token) {
+        originalConfig.headers.Authorization = `Bearer ${token}`;
+        return api(originalConfig);
       }
     }
   }
