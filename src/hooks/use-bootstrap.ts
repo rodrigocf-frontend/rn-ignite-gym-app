@@ -12,17 +12,16 @@ export const useBootstrap = (): { user: User | null; isReady: boolean } => {
 
   const checkIsAuthenticated = async () => {
     try {
-      const user = await getStorageUser();
-
-      if (user) {
+      const userStorage = await getStorageUser();
+      if (userStorage) {
         const newRefreshToken = await refreshAuthenticate();
 
         if (newRefreshToken) {
           setUser({
-            avatar: user.avatar,
-            email: user.email,
-            id: user.id,
-            name: user.name,
+            avatar: userStorage.avatar,
+            email: userStorage.email,
+            id: userStorage.id,
+            name: userStorage.name,
           });
         } else {
           setUser(null);

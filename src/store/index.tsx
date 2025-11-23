@@ -16,6 +16,8 @@ export function Providers({ children }: PropsWithChildren) {
     }
   }, [isReady]);
 
+  if (!isReady) return null;
+
   return (
     <GluestackUIProvider>
       <AuthProvider user={user}>

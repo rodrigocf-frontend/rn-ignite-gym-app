@@ -18,7 +18,6 @@ import { AuthContext } from "@/store/AuthContext";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { authenticate } from "@/services/auth";
 import { ToastContext } from "@/store/ToastContext";
-import { AxiosError } from "axios";
 
 export function Login() {
   const navigation = useNavigation();

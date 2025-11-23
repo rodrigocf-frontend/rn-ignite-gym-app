@@ -43,7 +43,10 @@ export function AuthProvider({
   };
 
   const updateUser = async (user: Partial<User>) => {
-    await setStorageUser(user);
+    await setStorageUser({
+      ...state,
+      ...user,
+    });
     setState((prevState) => {
       if (!prevState) {
         return prevState;
