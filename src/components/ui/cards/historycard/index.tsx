@@ -4,6 +4,7 @@ import { Heading } from "@/components/base/heading";
 import { HStack } from "@/components/base/hstack";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { convertToLocalTime } from "@/utils/momment";
 
 export type History = {
   id: number;
@@ -38,7 +39,7 @@ export function HistoryCard({ data }: Props) {
         </VStack>
         <Box className="mr-1">
           <Text size="sm" className="mb-1  font-roboto text-typography-150">
-            {hour}
+            {convertToLocalTime(hour)}
           </Text>
         </Box>
       </HStack>

@@ -9,6 +9,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "@date-fns/tz": "^1.4.1",
     "@expo/html-elements": "0.4.2",
     "@gluestack-ui/accordion": "^1.0.14",
     "@gluestack-ui/actionsheet": "^0.2.53",
@@ -48,6 +49,7 @@
     "@react-navigation/native-stack": "^7.6.2",
     "axios": "^1.13.2",
     "babel-plugin-module-resolver": "^5.0.2",
+    "date-fns": "^4.1.0",
     "expo": "~54.0.23",
     "expo-image-picker": "~17.0.8",
     "expo-navigation-bar": "~5.0.9",

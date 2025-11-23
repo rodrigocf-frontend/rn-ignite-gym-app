@@ -91,7 +91,7 @@ const ExerciseHeader = () => {
           {/* {route.params?.name} */}
         </Heading>
         <HStack space="xs" className="items-center">
-          <PersonIcon />
+          <PersonIcon color={"#7C7C8A"} />
           <Text className="text-typography-100 font-roboto text-base">
             Costas
           </Text>

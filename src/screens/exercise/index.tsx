@@ -35,7 +35,7 @@ export function Exercise() {
     try {
       setLoading(true);
       if (user) {
-        await createHistory({
+        const response = await createHistory({
           exercise_id: id,
         });
 
@@ -49,7 +49,8 @@ export function Exercise() {
           screen: "history",
         });
       }
-    } catch {
+    } catch (e) {
+      console.log(e);
       handleToast({
         title: "History",
         msg: "Falha ao salvar histórico",
@@ -62,6 +63,7 @@ export function Exercise() {
   const fetchExerciseDetail = async () => {
     try {
       const { data } = await getExerciseDetails(id);
+
       setExercise(data);
     } catch {
       handleToast({
@@ -100,13 +102,13 @@ export function Exercise() {
             <Box className="mb-6 mt-1">
               <HStack className="justify-between px-7">
                 <HStack space="sm" className="items-center">
-                  <BarbelIcon />
+                  <BarbelIcon color={"#00875F"} />
                   <Text className="font-roboto text-typography-100 text-xl">
                     {exercise?.series} séries
                   </Text>
                 </HStack>
                 <HStack space="sm" className="items-center">
-                  <RepeatIcon />
+                  <RepeatIcon color={"#00875F"} />
                   <Text className="font-roboto text-typography-100 text-xl">
                     {exercise?.repetitions} repetições
                   </Text>
