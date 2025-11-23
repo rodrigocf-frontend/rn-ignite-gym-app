@@ -68,12 +68,12 @@ export function Profile() {
     } catch (e) {
       if (e instanceof AxiosError) {
         reset({
-          oldPassword: " ",
+          oldPassword: "",
         });
 
         handleToast({
           title: "Usuário",
-          msg: "Falh ao atualizar dados do usuário",
+          msg: "Falha ao atualizar dados do usuário",
           sucess: false,
         });
       }
@@ -116,7 +116,7 @@ export function Profile() {
     } catch {
       handleToast({
         title: "Usuário",
-        msg: "Falh ao atualizar dados do usuário",
+        msg: "Falha ao atualizar dados do usuário",
         sucess: false,
       });
     }

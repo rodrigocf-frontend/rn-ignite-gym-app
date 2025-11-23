@@ -7,13 +7,13 @@ import { AppButton } from "@/components/common/appbutton";
 import { VStack } from "@/components/base/vstack";
 import { TextField } from "@/components/common/textfield";
 import { Heading } from "@/components/base/heading";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { SignUpFormData, signUpSchema } from "@/schemas/signupschema";
 import { ImageBackground } from "@/components/base/image-background";
 import { createUser } from "@/services/user";
-import { use } from "react";
+import { use, useCallback } from "react";
 import { ToastContext } from "@/store/ToastContext";
 
 export function SignUp() {
@@ -23,6 +23,7 @@ export function SignUp() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<SignUpFormData>({
     resolver: yupResolver(signUpSchema),
@@ -55,6 +56,20 @@ export function SignUp() {
       });
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+      return () => {
+        reset({
+          confirmPassword: "",
+          email: "",
+          name: "",
+          password: "",
+        });
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView className="flex-1">

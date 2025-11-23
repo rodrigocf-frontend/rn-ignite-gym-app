@@ -50,7 +50,6 @@ export function Exercise() {
         });
       }
     } catch (e) {
-      console.log(e);
       handleToast({
         title: "History",
         msg: "Falha ao salvar histórico",
@@ -67,8 +66,8 @@ export function Exercise() {
       setExercise(data);
     } catch {
       handleToast({
-        msg: "",
-        title: "",
+        title: "Failed",
+        msg: "Failed fetch Exercise detail",
       });
     }
   };

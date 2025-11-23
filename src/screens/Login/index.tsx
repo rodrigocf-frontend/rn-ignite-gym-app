@@ -8,11 +8,11 @@ import { AppButton } from "@/components/common/appbutton";
 import { VStack } from "@/components/base/vstack";
 import { TextField } from "@/components/common/textfield";
 import { Heading } from "@/components/base/heading";
-import { useNavigation } from "@react-navigation/native";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
 import { useForm, Controller } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { LoginFormData, loginSchema } from "@/schemas/loginschema";
-import { use } from "react";
+import { use, useCallback } from "react";
 import { AuthContext } from "@/store/AuthContext";
 
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -27,12 +27,13 @@ export function Login() {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<LoginFormData>({
     resolver: yupResolver(loginSchema),
     defaultValues: {
-      email: "mec@email.com",
-      password: "1234567",
+      email: "",
+      password: "",
     },
   });
 
@@ -54,6 +55,18 @@ export function Login() {
       });
     }
   };
+
+  useFocusEffect(
+    useCallback(() => {
+      // Do something when the screen is focused
+      return () => {
+        reset({
+          email: "",
+          password: "",
+        });
+      };
+    }, [])
+  );
 
   return (
     <SafeAreaView className="flex-1">
