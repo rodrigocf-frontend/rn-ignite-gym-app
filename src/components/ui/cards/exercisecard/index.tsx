@@ -3,9 +3,8 @@ import { Icon } from "@/components/base/icon";
 import { Image } from "@/components/base/image";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { ChevronRight } from "@/components/common/icons";
 import { api } from "@/config/api";
-
-import { ChevronRight } from "lucide-react-native";
 import { TouchableOpacity, TouchableOpacityProps } from "react-native";
 
 export interface ExerciseType {
@@ -50,7 +49,7 @@ export function ExerciseCard({ onPress, data }: Props) {
       </VStack>
 
       {/* Ícone de seta */}
-      <Icon as={ChevronRight} className="text-primary-150 w-8 h-8 mr-2" />
+      <ChevronRight />
     </TouchableOpacity>
   );
 }

@@ -1,14 +1,14 @@
+import {
+  HistoryIcon,
+  HouseIcon,
+  UserCircleIcon,
+} from "@/components/common/icons";
 import { Header } from "@/components/ui/header";
 import { Exercise } from "@/screens/exercise";
 import { History } from "@/screens/history";
 import { Home } from "@/screens/home";
 import { Profile } from "@/screens/profile";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { UserCircleIcon } from "lucide-react-native";
-import {
-  ClockCounterClockwiseIcon,
-  HouseSimpleIcon,
-} from "phosphor-react-native";
 
 export type AuthenticatedStackParamList = {
   home: undefined;
@@ -49,7 +49,7 @@ export const AuthenticatedRoutes = () => {
             focused: boolean;
             color: string;
             size: number;
-          }) => <HouseSimpleIcon size={32} color={color} />,
+          }) => <HouseIcon color={color} />,
           header: () => <Header type="home" />,
         }}
       />
@@ -74,7 +74,7 @@ export const AuthenticatedRoutes = () => {
             focused: boolean;
             color: string;
             size: number;
-          }) => <ClockCounterClockwiseIcon size={32} color={color} />,
+          }) => <HistoryIcon color={color} />,
           header: ({ options }) => (
             <Header type="title" optionsBottomTabs={options} />
           ),
@@ -91,7 +91,7 @@ export const AuthenticatedRoutes = () => {
             focused: boolean;
             color: string;
             size: number;
-          }) => <UserCircleIcon size={32} color={color} />,
+          }) => <UserCircleIcon color={color} fontSize={150} />,
           header: ({ options }) => (
             <Header type="title" optionsBottomTabs={options} />
           ),

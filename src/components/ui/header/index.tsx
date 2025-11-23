@@ -6,17 +6,14 @@ import {
 import { Box } from "@/components/base/box";
 import { Heading } from "@/components/base/heading";
 import { HStack } from "@/components/base/hstack";
-import { Icon } from "@/components/base/icon";
 import { Pressable } from "@/components/base/pressable";
 import { Text } from "@/components/base/text";
 import { VStack } from "@/components/base/vstack";
+import { ArrowLeft, ExitIcon, PersonIcon } from "@/components/common/icons";
 import { api } from "@/config/api";
-import { AuthenticatedStackParamList } from "@/routes/authenticated.route";
 import { AuthContext } from "@/store/AuthContext";
 import { BottomTabNavigationOptions } from "@react-navigation/bottom-tabs";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { ArrowLeft, LogOutIcon } from "lucide-react-native";
-import { PersonIcon } from "phosphor-react-native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { use } from "react";
 
 interface OptionsBottomTabs {
@@ -40,7 +37,6 @@ export function Header({ type, optionsBottomTabs }: Props) {
 }
 
 const HomeHeader = () => {
-  const navigation = useNavigation();
   const { user, logout } = use(AuthContext);
 
   const logoutHandler = () => {
@@ -74,13 +70,8 @@ const HomeHeader = () => {
         </VStack>
       </HStack>
 
-      <Pressable onPress={logoutHandler}>
-        <Icon
-          className="text-primary-100"
-          as={LogOutIcon}
-          width={"150px"}
-          size="xl"
-        />
+      <Pressable onPress={logoutHandler} className="text-white">
+        <ExitIcon color={"#C4C4CC"} />
       </Pressable>
     </HStack>
   );
@@ -88,18 +79,19 @@ const HomeHeader = () => {
 
 const ExerciseHeader = () => {
   const navigation = useNavigation();
+  const route = useRoute();
 
   return (
     <VStack space="md">
       <Pressable onPress={() => navigation.goBack()}>
-        <Icon className="text-secondary-0" as={ArrowLeft} size="xl" />
+        <ArrowLeft color={"#00B37E"} />
       </Pressable>
       <HStack className="justify-between items-center">
         <Heading className="text-typography-50 font-roboto text-xl">
           {/* {route.params?.name} */}
         </Heading>
         <HStack space="xs" className="items-center">
-          <Icon fill="#7C7C8A" stroke="#7C7C8A" as={PersonIcon} size="md" />
+          <PersonIcon />
           <Text className="text-typography-100 font-roboto text-base">
             Costas
           </Text>

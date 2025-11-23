@@ -55,7 +55,6 @@
     "expo-status-bar": "~3.0.8",
     "lucide-react-native": "0.510.0",
     "nativewind": "^4.2.1",
-    "phosphor-react-native": "^3.0.1",
     "react": "19.1.0",
     "react-aria": "3.33.0",
     "react-dom": "19.1.0",
